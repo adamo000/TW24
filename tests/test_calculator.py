@@ -1,22 +1,17 @@
 import unittest
-from pathlib import Path
-from appium import webdriver
-from appium.options.android import UiAutomator2Options
-from appium.webdriver.common.appiumby import AppiumBy
+from appium.webdriver.appium_service import AppiumService
 from screens.main_screen import MainScreen
+
+from helpers.appium_manager import get_driver
 
 class MyTestCase(unittest.TestCase):
 
     # before all
     @classmethod
     def setUpClass(cls):
-        app_name = 'calculator.apk'
-        app_path = str(Path(__file__).parent.parent.joinpath(app_name))
-        appium_server_url = 'http://localhost:4723'
-        options = UiAutomator2Options()
-        options.platform_name = 'Android'
-        options.app = app_path
-        cls.driver = webdriver.Remote(command_executor=appium_server_url, options=options)
+        cls.appium_service = AppiumService()
+        cls.appium_service.start()
+        cls.driver = get_driver()
         cls.main_screen = MainScreen(cls.driver)
 
     # before each
@@ -36,6 +31,7 @@ class MyTestCase(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         cls.driver.quit()
+        cls.appium_service.stop()
 
 
 if __name__ == '__main__':
