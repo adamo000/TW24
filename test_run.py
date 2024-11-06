@@ -13,7 +13,7 @@ options.app = app_path
 
 driver = webdriver.Remote(command_executor=appium_server_url, options=options)
 
-
+################
 
 driver.find_element(AppiumBy.ACCESSIBILITY_ID, '2').click()
 driver.find_element(AppiumBy.CSS_SELECTOR, '[resource-id="op_add"]').click()
