@@ -11,4 +11,5 @@ def get_driver():
     options.platform_name = 'Android'
     options.app = app_path
     driver = webdriver.Remote(command_executor=appium_server_url, options=options)
+    driver.implicitly_wait(10)
     return driver

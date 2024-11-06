@@ -1,5 +1,6 @@
 import unittest
 from appium.webdriver.appium_service import AppiumService
+
 from screens.main_screen import MainScreen
 
 from helpers.appium_manager import get_driver
@@ -23,9 +24,21 @@ class MyTestCase(unittest.TestCase):
         result_preview = self.main_screen.get_result()
         self.assertEqual(int(result_preview), 3)
 
+    def test_add_2_values_zeros(self):
+        self.main_screen.add_2_values(0, 0)
+        result_preview = self.main_screen.get_result()
+        self.assertEqual(int(result_preview), 0)
+
+    def test_expand_history(self):
+        self.main_screen.add_2_values(1, 9)
+        self.main_screen.expand_history()
+        history_result_review = self.main_screen.get_history_result()
+        self.assertEqual(int(history_result_review), 10)
+
     # after each
     def tearDown(self):
-        pass
+        self.driver.execute_script('mobile: clearApp', {'appId': 'com.google.android.calculator'})
+        self.driver.activate_app('com.google.android.calculator')
 
     # after all
     @classmethod
